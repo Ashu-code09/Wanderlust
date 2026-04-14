@@ -1,0 +1,85 @@
+<% layout("/layouts/boilerplate")%>
+<div class="row">
+    <div class="col-8 offset-2">
+        <h2 class="new-page-heading">Create Your listing</h2>
+        <form method="POST"
+              action="/listings"
+              class="needs-validation" novalidate>
+            <div class="mb-3">
+            <label for="title"
+                   class="form-label">Title</label>
+            <input type="text"
+                   name="listing[title]"
+                   class="form-control"
+                   id="title"
+                   placeholder="e.g., Cozy Beachfront Cottage" required>
+              <div class="valid-feedback">
+                            Title looks good!
+              </div>
+            </div>
+            <div class="mb-3">
+            <label for="description"
+                   class="form-label">Description</label>
+            <textarea name="listing[description]"
+                      class="form-control"
+                      placeholder="Describe your place, amenities, and nearby attractions..."
+                      id="description"
+                      rows="4"
+                      cols="30" required></textarea>
+              <div class="invalid-feedback">
+                            Please enter a short description
+              </div>
+            </div>
+            <div class="mb-3">
+            <label for="image"
+                   class="form-label">Image</label>
+            <input type="text"
+                   name="listing[image]"
+                   class="form-control"
+                   id="image"
+                   placeholder="Paste an image link (https://...)">
+              <div class="invalid-feedback">
+                            Please enter a valid link for image
+              </div>
+            </div>
+            <div class="row">
+                <div class="mb-3 col-md-4">
+                    <label for="price"
+                           class="form-label">Price</label>
+                    <input
+                           name="listing[price]"
+                           class="form-control"
+                           id="price"
+                           placeholder="e.g., 2500" required>
+                     <div class="invalid-feedback">
+                            Please enter a valid price
+                     </div>
+                </div>
+                <div class="mb-3 col-md-8">
+                    <label for="location"
+                           class="form-label">Location</label>
+                    <input type="text"
+                           name="listing[location]"
+                           class="form-control"
+                           id="location"
+                           placeholder="City or area (e.g., Goa, Calangute)" required>
+                     <div class="invalid-feedback">
+                            Please enter a valid location
+                     </div>
+                </div>
+            </div>
+            <div class="mb-3">
+            <label for="country"
+                   class="form-label">Country</label>
+            <input type="text"
+                   name="listing[country]"
+                   class="form-control"
+                   placeholder="Country name (e.g., India)" required> 
+              <div class="invalid-feedback">
+                     Please enter a valid country
+              </div>
+            </div>
+            <button class="add-btn btn btn-dark">Add</button>
+        </form>
+        </div>
+        </div>

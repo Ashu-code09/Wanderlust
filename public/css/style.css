@@ -1,0 +1,144 @@
+body{
+    font-family: "Poppins", sans-serif !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container{
+    flex: 1;
+}
+/* Navbar */
+.navbar{
+    margin-bottom: 1rem;
+    width: 100%;
+    height: 5rem;
+}
+
+
+.fa-compass{
+    color: #fe424d;
+    font-size: 2rem;
+}
+
+.nav-link{
+    color: #222222 !important;
+}
+
+/* Footer */
+footer{
+    width: 100%;
+}
+.f-info{
+    margin-top: 2rem;
+    height: 8rem;
+    background-color: #ededed;
+    /* padding: 10px; */
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+}
+
+.f-info-links a{
+    color: #222222;
+    text-decoration: none;
+}
+
+.f-info-links a:hover{
+    text-decoration: underline;
+}
+
+.f-info-socials i{
+    font-size: 1.3rem;
+    margin-left: 1rem;
+}
+
+
+
+/* Index page */
+.listing-card{
+    margin-top: 1rem;
+    height: 400px;
+    width: 400px;
+    transition: all 0.3s ease-in;
+    /* border: 2px solid black; */
+}
+
+.listing-card:hover{
+    border-radius: 20px;
+    opacity: 0.8;
+    background-color: white;
+    box-shadow: 5px 10px 25px black;
+}
+
+.listing-card img{
+    border-radius: 20px;
+    width: 100%;
+    height: 70%;
+}
+
+.listing-info {
+    padding: 1rem;
+}
+
+.allListings{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.listing-link {
+    text-decoration: none;
+    color: #222222;
+}
+
+
+/* Edit page */
+.edit-btn{
+    background-color:#fe424d !important;
+    border: none !important;
+}
+
+/* Add page */
+.add-btn{
+    background-color: #fe424d !important;
+    border: none !important;
+}
+.form-control:focus{
+  outline: none !important;
+  border-color: #ff5a5f !important;
+  box-shadow: 0 0 0 3px rgba(255, 90, 95, 0.15) !important;
+}
+
+
+/* show page */
+.card-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* overflow: scroll; */
+}
+
+.show-listing-card{
+    margin-top: 1rem;
+    width: 700px;
+    transition: all 0.3s ease-in;
+    /* border: 2px solid black; */
+}
+
+.show-listing-card img{
+    border-radius: 10px;
+    width: 100%;
+    max-height: 250px;
+    object-fit: cover;
+    
+}
+
+.options{
+    display: flex;
+    width: 100%;
+    gap: 10px;
+    margin-top: 15px;
+}
