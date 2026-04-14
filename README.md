@@ -11,9 +11,9 @@ Wanderlust is a full-stack web application inspired by Airbnb that allows users 
 – Add new hotels, rooms, or bungalows
  ### Edit Listing
  – Update details of existing listings
-- ### Delete Listing 
+### Delete Listing 
 – Remove listings easily
-- ### CRUD Operations 
+### CRUD Operations 
 – Fully functional backend with RESTful APIs
 
 ## Tech Stack
