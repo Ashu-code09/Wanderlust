@@ -6,8 +6,19 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const asyncWrap = require("./utils/asyncWrap.js");
 const ExpressError = require("./utils/ExpressError.js");
+const {listingSchema} = require("./Schema.js");
 
+const listingValidate = (req,res,next) => {
+    let {error} = listingSchema.validate(req.body);
+    console.log(error);
+        if(error){
+            let errMsg = error.details.map((el) => el.message).join(",")
+            throw new ExpressError(400,errMsg);
+        }
+}
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+
+
 const app = express();
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"views"));
@@ -47,7 +58,8 @@ app.get("/listings/new",(req,res) => {
 });
 
 //Create route
-app.post("/listings",asyncWrap(async(req,res,next) => {
+app.post("/listings",listingValidate,asyncWrap(async(req,res,next) => {
+        
         let newListing = new Listing(req.body.listing);
         await newListing.save()
         res.redirect("/listings");
@@ -61,7 +73,7 @@ app.get("/listings/:id/edit",asyncWrap(async(req,res) => {
 }))
 
 //Update route
-app.put("/listings/:id",asyncWrap(async(req,res) => {
+app.put("/listings/:id",listingValidate,asyncWrap(async(req,res) => {
     let {id} = req.params;
     await Listing.findByIdAndUpdate(id,{...req.body.listing});
     res.redirect(`/listings/${id}`);
@@ -82,16 +94,18 @@ app.delete("/listings/:id",asyncWrap(async(req,res) => {
     res.redirect("/listings");
 }))
 
+
+app.use((req,res,next) => {
+   next(new ExpressError(404,"Page not found"));
+    
+})
+
+//Error handling middleware
+app.use((err,req,res,next) => {
+    let {statusCode = 500,message = "Some error occured!"} = err;
+    res.status(statusCode).render("error.ejs",{err});
+})
+
 app.listen(8080,() => {
     console.log("App is listening");
 });
-
-// app.all("/*",(req,res,next) => {
-//     next(new ExpressError(404,"Page not found!"));
-    
-// })
-
-app.use((err,req,res,next) => {
-    let {statusCode = 500,message = "Some error occured!"} = err;
-    res.status(statusCode).send(message);
-})
