@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const Review = require("./review.js");
 const Schema = mongoose.Schema;
 
 const listingSchema = new Schema({
@@ -28,8 +28,22 @@ const listingSchema = new Schema({
     country : {
         type : String,
         required : true
+    },
+    reviews : [
+        {
+        type : Schema.Types.ObjectId,
+        ref : "Review"
     }
+]
 });
+
+listingSchema.post("findOneAndDelete",async(delListing,next) => {
+    console.log("Post middleware activated!");
+    if(delListing.reviews.length){
+        let delReviews = await Review.deleteMany({_id : {$in : delListing.reviews}})
+        console.log(delReviews);
+    }
+})
 
 const Listing = mongoose.model("Listing",listingSchema);
 
