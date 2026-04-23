@@ -8,6 +8,10 @@ const listingRoute = require("./router/listingRoute.js");
 const reviewRoute = require("./router/reviewRoute.js");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require("./models/user.js");
+const authRoute = require("./router/AuthRoute.js");
 
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
@@ -48,10 +52,16 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req,res,next) => {
     res.locals.success = req.flash("success");
-    res.locals.failure = req.flash("failure");
-    console.log(res.locals.success);
+    res.locals.failure = req.flash("error");
+    res.locals.currUser = req.user;
     next();
 })
 
@@ -61,6 +71,8 @@ app.get("/",(req,res) => {
 
 app.use("/listings",listingRoute);
 app.use("/listings/:id/reviews",reviewRoute)
+
+app.use("/",authRoute);
 
 app.use((req,res,next) => {
    next(new ExpressError(404,"Page not found"));

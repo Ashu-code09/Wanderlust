@@ -1,27 +1,19 @@
 const Express = require("express");
 const router = Express.Router({mergeParams:true});
 const asyncWrap = require("../utils/asyncWrap");
-const ExpressError = require("../utils/ExpressError.js");
-const {reviewSchema} = require("../Schema.js");
 const Listing = require("../models/listing.js");
 const Review = require("../models/review.js");
+const {reviewValidate,isLoggedIn,isReviewAuthor} = require("../middleware.js");
 
-const reviewValidate = (req,res,next) => {
-    let {error} = reviewSchema.validate(req.body);
-        if(error){
-            let errMsg = error.details.map((el) => el.message).join(",")
-            throw new ExpressError(400,errMsg);
-        }else{
-            next();
-        }
-}
 
 //Reviews
 //Post Route
-router.post("/",reviewValidate,asyncWrap(async(req,res) => {
+router.post("/",reviewValidate,isLoggedIn,asyncWrap(async(req,res) => {
     let listing = await Listing.findById(req.params.id);
     let newReview = new Review(req.body.review);
     
+    newReview.author = req.user._id;
+    console.log(newReview);
     listing.reviews.push(newReview);
 
     await newReview.save();
@@ -33,7 +25,7 @@ router.post("/",reviewValidate,asyncWrap(async(req,res) => {
 }))
 
 //Delete route
-router.delete("/:reviewId",asyncWrap(async(req,res) => {
+router.delete("/:reviewId",isLoggedIn,isReviewAuthor,asyncWrap(async(req,res) => {
     let {id,reviewId} = req.params;
     await Listing.findByIdAndUpdate(id,{$pull : {reviews : reviewId}});
     await Review.findByIdAndDelete(reviewId);
