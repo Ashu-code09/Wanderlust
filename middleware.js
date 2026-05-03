@@ -2,10 +2,11 @@ const Listing = require("./models/listing");
 const {listingSchema,reviewSchema} = require("./Schema.js");
 const ExpressError = require("./utils/ExpressError.js");
 const Review = require("./models/review.js");
+const cloudinary = require("cloudinary");
+const asyncWrap = require("./utils/asyncWrap.js");
 
 module.exports.isLoggedIn = (req,res,next) => {{
     req.session.originalUrl = req.originalUrl;
-    console.log("original url = ",req.originalUrl,req.method);
     if (!req.isAuthenticated()){
         req.flash("error","You must be logged in!");
         return res.redirect("/login");
@@ -57,3 +58,13 @@ module.exports.reviewValidate = (req,res,next) => {
             next();
         }
 }
+
+module.exports.updateCloudinary = asyncWrap(async (req,res,next) => {
+    if(req.file && req.params.id){
+        const listing = await Listing.findById(req.params.id);
+        if(listing.image.filename){
+            await cloudinary.uploader.destroy(listing.image.filename);
+        }
+    }
+    next();
+})

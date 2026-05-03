@@ -4,7 +4,7 @@
         <h2 class="new-page-heading">Create Your listing</h2>
         <form method="POST"
               action="/listings"
-              class="needs-validation" novalidate>
+              class="needs-validation" enctype="multipart/form-data" novalidate>
             <div class="mb-3">
             <label for="title"
                    class="form-label">Title</label>
@@ -32,15 +32,16 @@
             </div>
             <div class="mb-3">
             <label for="image"
-                   class="form-label">Image</label>
-            <input type="text"
+                   class="form-label">Upload Listing Image</label>
+            <input type="file"
                    name="listing[image]"
                    class="form-control"
                    id="image"
-                   placeholder="Paste an image link (https://...)">
-              <div class="invalid-feedback">
-                            Please enter a valid link for image
-              </div>
+                   required>
+
+              <img id="previewImage" src="" 
+                     style="display:none; width:300px; margin-top:10px; border-radius:10px;">
+         
             </div>
             <div class="row">
                 <div class="mb-3 col-md-4">

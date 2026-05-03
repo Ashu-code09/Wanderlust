@@ -241,4 +241,14 @@ country: "South Africa"
 }
 ];
 
-module.exports = { data: sampleListings };
+const updatedData = sampleListings.map((item) => {
+  return {
+    ...item,
+    image: {
+      url: item.image,
+      filename: "listingimage"
+    }
+  };
+});
+
+module.exports = { data: updatedData };
